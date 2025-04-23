@@ -6,7 +6,7 @@ import renatius.airlinessystem.Entity.AbstractEntity.Flight;
 import renatius.airlinessystem.Entity.Enum.AirPlaneStatus;
 
 @Entity
-@Table
+@Table(name = "air_plane")
 @Getter
 @Setter
 @Builder
@@ -16,11 +16,11 @@ public class AirPlane {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
+    @Column(name = "plane_name")
     private String planeName;
-    @Column
+    @Column(name = "air_plane_model")
     private String airPlaneModel;
-    @Column
+    @Column(name = "air_plane_status")
     private AirPlaneStatus airPlaneStatus;
     @OneToOne
     private Flight flight;

@@ -5,12 +5,11 @@ import lombok.*;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
 
+import java.time.LocalDateTime;
 import java.util.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
-@Table
+@Table(name = "flight")
 @Getter
 @Setter
 @Builder
@@ -21,15 +20,21 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
-    private LocalTime flightTime;
+    @Column(name = "departureTime")
+    private LocalDateTime departureTime;
 
-    @Column
-    private LocalDate flightDate;
+    @Column(name = "arrivalTime")
+    private LocalDateTime arrivalTime;
 
     @OneToOne
     private AirPlane airPlane;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "flight")
     private List<FlightCrew> flightCrewList;
+
+    @Column(name = "fromCity")
+    private String fromCity;
+
+    @Column(name = "toCity")
+    private String toCity;
 }

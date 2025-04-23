@@ -10,3 +10,4 @@ public enum WeatherStatus {
     LOWWIND,
     NORAIN;
 }
+

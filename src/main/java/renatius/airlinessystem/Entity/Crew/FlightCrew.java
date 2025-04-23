@@ -12,6 +12,7 @@ import renatius.airlinessystem.Entity.Enum.CrewStatus;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class FlightCrew {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +39,5 @@ public class FlightCrew {
     @ManyToOne
     @JoinColumn(name = "flight_id", nullable = false)
     private Flight flight;
+
 }
