@@ -9,4 +9,5 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class Purser extends FlightCrew{
+
 }

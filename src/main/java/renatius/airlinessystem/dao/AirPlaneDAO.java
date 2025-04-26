@@ -1,4 +1,14 @@
 package renatius.airlinessystem.dao;
 
+import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
+import renatius.airlinessystem.Entity.GroundUnit.City;
+
+import java.util.List;
+
 public interface AirPlaneDAO {
+    public AirPlane findById(int id);
+    public void save(AirPlane airPlane);
+    public void delete(AirPlane airPlane);
+    public void update(AirPlane airPlane);
+    public List<AirPlane> findAll();
 }
