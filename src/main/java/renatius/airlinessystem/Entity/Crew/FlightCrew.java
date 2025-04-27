@@ -6,7 +6,7 @@ import renatius.airlinessystem.Entity.AbstractEntity.Flight;
 import renatius.airlinessystem.Entity.Enum.CrewStatus;
 
 @Entity
-@Table
+@Table(name = "flight_crew")
 @Getter
 @Setter
 @Builder
@@ -18,22 +18,22 @@ public class FlightCrew {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int crewID;
 
-    @Column
+    @Column(name = "crew_name")
     private String crewName;
 
-    @Column
+    @Column(name = "crew_surname")
     private String crewSurname;
 
-    @Column
+    @Column(name = "crew_lastname")
     private String crewLastname;
 
-    @Column
+    @Column(name = "crew_age")
     private int crewAge;
 
-    @Column
+    @Column(name = "crew_sex")
     private String crewSex;
 
-    @Column
+    @Column(name = "crew_status")
     private CrewStatus status;
 
     @ManyToOne

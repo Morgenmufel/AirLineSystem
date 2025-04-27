@@ -11,4 +11,5 @@ public interface FlightCrewDAO {
     public void delete(FlightCrew flightCrew);
     public void update(FlightCrew flightCrew);
     public List<FlightCrew> findAll();
+    public List<FlightCrew> findByStatus();
 }

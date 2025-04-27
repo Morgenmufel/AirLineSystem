@@ -9,4 +9,5 @@ public interface CityDAO {
     public void delete(City city);
     public void update(City city);
     public List<City> findAll();
+    public City findByName(String name);
 }

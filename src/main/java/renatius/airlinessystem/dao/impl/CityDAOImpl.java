@@ -14,6 +14,10 @@ public class CityDAOImpl implements CityDAO {
         return HibernateUtil.getSessionFactory().openSession().get(City.class, id);
     }
 
+    public City findByName(String name){
+        return HibernateUtil.getSessionFactory().openSession().get(City.class, name);
+    }
+
     @Override
     public void save(City city) {
         Session session = HibernateUtil.getSessionFactory().openSession();

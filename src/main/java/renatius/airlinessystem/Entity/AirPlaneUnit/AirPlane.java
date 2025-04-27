@@ -22,6 +22,8 @@ public class AirPlane {
     private String airPlaneModel;
     @Column(name = "air_plane_status")
     private AirPlaneStatus airPlaneStatus;
+    @Column(name="long_of_way")
+    private int longOfWay;
     @OneToOne
     private Flight flight;
 }

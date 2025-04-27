@@ -3,6 +3,7 @@ package renatius.airlinessystem.dao.impl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
+import renatius.airlinessystem.Entity.GroundUnit.City;
 import renatius.airlinessystem.Hibernate.HibernateUtil;
 import renatius.airlinessystem.dao.FlightCrewDAO;
 
@@ -44,6 +45,12 @@ public class FlightCrewDAOImpl implements FlightCrewDAO {
     @Override
     public List<FlightCrew> findAll() {
         List<FlightCrew> flightCrewList = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew").list();
+        return flightCrewList;
+    }
+
+    @Override
+    public List<FlightCrew> findByStatus() {
+        List<FlightCrew> flightCrewList = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where crew_staus = FREE").list();
         return flightCrewList;
     }
 }
