@@ -24,6 +24,7 @@ public class AirPlane {
     private AirPlaneStatus airPlaneStatus;
     @Column(name="long_of_way")
     private int longOfWay;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "flight_id")
     private Flight flight;
 }

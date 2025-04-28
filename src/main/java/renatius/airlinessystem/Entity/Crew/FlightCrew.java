@@ -21,14 +21,18 @@ public class FlightCrew {
     @Column(name = "crew_name")
     private String crewName;
 
-    @Column(name = "crew_surname")
-    private String crewSurname;
-
-    @Column(name = "crew_lastname")
-    private String crewLastname;
 
     @Column(name = "crew_status")
     private CrewStatus status;
+
+    @Column(name = "crew_age")
+    private int age;
+
+    @Column(name = "crew_sex")
+    private String sex;
+
+    @Column(name = "post")
+    private String post;
 
     @ManyToOne
     @JoinColumn(name = "flight_id")

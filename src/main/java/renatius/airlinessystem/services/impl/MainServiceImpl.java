@@ -36,12 +36,16 @@ public class MainServiceImpl implements MainService {
         else return false;
     }
 
-    public Flight createFlight(LocalDateTime departureTime, AirPlane airPlane, String fromCity, String toCity) {
+    public Flight createFlight(LocalDateTime departureTime, AirPlane airPlane, String fromAirport, String toAirport) {
         Flight flight = new Flight();
         Random random = new Random();
-        Airport whereArrive = airportService.findAirportByName(toCity);
-        Airport whereDepart = airportService.findAirportByName(fromCity);
-        if (!checkWeatherStatus(whereArrive, whereDepart)){
+        Airport whereArrive = airportService.findAirportByName(toAirport);
+        Airport whereDepart = airportService.findAirportByName(fromAirport);
+        List<FlightCrew> flightCrewList = crewService.getCrewByStatus();
+        if (flightCrewList == null) {
+            return null;
+        }
+            if (!checkWeatherStatus(whereArrive, whereDepart)){
             System.out.println("Погодные условия ужасны");
             return null;
         }
@@ -50,22 +54,18 @@ public class MainServiceImpl implements MainService {
         flight.setDepartureTime(departureTime);
         flight.setArrivalTime(arrivalTime);
         flight.setAirPlane(airPlane);
-        flight.setFromAirport(fromCity);
-        flight.setToAirport(toCity);
+        flight.setFromAirport(fromAirport);
+        flight.setToAirport(toAirport);
         airPlane.setFlight(flight);
         airPlane.setAirPlaneStatus(AirPlaneStatus.ASSIGNED);
-        List<FlightCrew> flightCrewList = crewService.getCrewByStatus();
-        if (flightCrewList == null) {
-            return null;
-        }
         flight.setFlightCrewList(flightCrewList);
-        flightService.addFlight(flight);
         flightCrewList.forEach(flightCrew -> {
             flightCrew.setFlight(flight);
             flightCrew.setStatus(CrewStatus.ASSIGNED);
             crewService.updateCrew(flightCrew);
         });
         airPlaneService.updateAirPlane(airPlane);
+        flightService.addFlight(flight);
         return flight;
     }
 
