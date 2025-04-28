@@ -1,0 +1,92 @@
+.anchor {
+    -fx-background-image:url('../static/image/фон_самолётик.jpg');
+    -fx-background-size: cover;
+}.anchor {
+     -fx-background-image: url('../static/image/фон_самолётик.jpg');
+     -fx-background-size: cover;
+ }.anchor2{
+       -fx-background-image: url('../static/image/frame1.jpg');
+       -fx-background-size: cover;
+}  .anchor3{
+    -fx-background-image: url('../static/image/frame2.jpg');
+    -fx-background-size: cover;
+}  .anchor4{
+     -fx-background-image: url('../static/image/frame3.jpg');
+     -fx-background-size: cover;
+ }
+
+.label.main {
+    -fx-padding: 5px; /* Внутренний отступ текста */
+    -fx-font-size: 26px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-text-fill: white; /* Цвет текста */
+}
+.label2{
+    -fx-padding: 5px; /* Внутренний отступ текста */
+    -fx-font-size: 14px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-text-fill: grey; /* Цвет текста */
+}
+.label.title{
+    -fx-padding: 5px; /* Внутренний отступ текста */
+    -fx-font-size: 30px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-text-fill: white; /* Цвет текста */
+}
+.label.average{
+    -fx-padding: 5px; /* Внутренний отступ текста */
+    -fx-font-size: 18px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-text-fill: white; /* Цвет текста */
+}
+.label.cause {
+    -fx-padding: 5px; /* Внутренний отступ текста */
+    -fx-font-size: 12px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-text-fill: white; /* Цвет текста */
+}
+.label.error {
+    -fx-text-fill: #d9534f; /* Красный цвет текста */
+    -fx-font-size: 12px;
+    -fx-font-weight: bold; /* Жирный текст */
+    -fx-effect: dropshadow(gaussian, rgba(217, 83, 79, 0.3), 2, 0, 0, 1); /* Лёгкая тень */
+}
+.text-field {
+    -fx-border-color: #cccccc; /* Светло-серая граница */
+    -fx-border-width: 2px; /* Толщина границы */
+    -fx-padding: 5px; /* Внутренний отступ текста */
+    -fx-font-size: 14px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-text-fill: black; /* Цвет текста */
+    -fx-border-radius: 5px; /* Скругленные углы */
+    -fx-background-radius: 5px; /* Скругленные углы фона */
+}
+.button {
+    -fx-background-color: #4285f4; /* Синий фон */
+    -fx-text-fill: white; /* Белый цвет текста */
+    -fx-font-size: 14px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-padding: 10px 20px; /* Отступы внутри кнопки */
+    -fx-border-radius: 5px; /* Скругленные углы границы */
+    -fx-background-radius: 5px; /* Скругленные углы фона */
+    -fx-cursor: hand; /* Курсор-указатель при наведении */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2); /* Тень под кнопкой */
+    -fx-border-color: transparent; /* Без границы */
+}
+.button.exit {
+    -fx-background-color: rgb(50, 0, 80); /* Синий фон */
+    -fx-text-fill: white; /* Белый цвет текста */
+    -fx-font-size: 14px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-padding: 10px 20px; /* Отступы внутри кнопки */
+    -fx-border-radius: 5px; /* Скругленные углы границы */
+    -fx-background-radius: 5px; /* Скругленные углы фона */
+    -fx-cursor: hand; /* Курсор-указатель при наведении */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2); /* Тень под кнопкой */
+    -fx-border-color: transparent; /* Без границы */
+}
+.table-view{
+    -fx-font-size: 14px; /* Размер шрифта */
+    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
+    -fx-text-fill: black; /* Цвет текста */
+}
