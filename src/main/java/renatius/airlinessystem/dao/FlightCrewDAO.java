@@ -1,7 +1,6 @@
 package renatius.airlinessystem.dao;
 
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
-import renatius.airlinessystem.Entity.GroundUnit.City;
 
 import java.util.List;
 

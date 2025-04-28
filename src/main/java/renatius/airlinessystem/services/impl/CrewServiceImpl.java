@@ -1,7 +1,6 @@
 package renatius.airlinessystem.services.impl;
 
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
-import renatius.airlinessystem.Entity.GroundUnit.City;
 import renatius.airlinessystem.dao.impl.FlightCrewDAOImpl;
 import renatius.airlinessystem.services.CrewService;
 

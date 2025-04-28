@@ -27,17 +27,11 @@ public class FlightCrew {
     @Column(name = "crew_lastname")
     private String crewLastname;
 
-    @Column(name = "crew_age")
-    private int crewAge;
-
-    @Column(name = "crew_sex")
-    private String crewSex;
-
     @Column(name = "crew_status")
     private CrewStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "flight_id", nullable = false)
+    @JoinColumn(name = "flight_id")
     private Flight flight;
 
 }

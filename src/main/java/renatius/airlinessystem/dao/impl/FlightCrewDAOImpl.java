@@ -3,7 +3,6 @@ package renatius.airlinessystem.dao.impl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
-import renatius.airlinessystem.Entity.GroundUnit.City;
 import renatius.airlinessystem.Hibernate.HibernateUtil;
 import renatius.airlinessystem.dao.FlightCrewDAO;
 

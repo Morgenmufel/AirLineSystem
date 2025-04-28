@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
 import renatius.airlinessystem.Entity.Crew.*;
-import renatius.airlinessystem.Entity.GroundUnit.City;
+import renatius.airlinessystem.Entity.GroundUnit.Airport;
 
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
@@ -28,7 +28,7 @@ public class HibernateUtil {
                         .addAnnotatedClass(FlightAttendant.class)
                         .addAnnotatedClass(Captain.class)
                         .addAnnotatedClass(AirborneSensorOperator.class)
-                        .addAnnotatedClass(City.class)
+                        .addAnnotatedClass(Airport.class)
                         .addAnnotatedClass(Flight.class)
                         .addAnnotatedClass(AirPlane.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());

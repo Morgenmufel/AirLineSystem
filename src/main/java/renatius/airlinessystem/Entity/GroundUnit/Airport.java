@@ -5,30 +5,25 @@ import lombok.*;
 import renatius.airlinessystem.Entity.Enum.WeatherStatus;
 
 @Entity
-@Table
+@Table(name = "airport")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class City {
+public class Airport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(name = "airport_name")
     private String name;
 
-    @Column
-    private int population;
 
-    @Column
-    private boolean airportExists;
-
-    @Column
+    @Column(name = "country")
     private String country;
 
-    @Column
+    @Column(name = "weather_status")
     private WeatherStatus weatherStatus;
 }

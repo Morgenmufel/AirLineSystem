@@ -23,7 +23,7 @@ public class Flight {
     @Column(name = "departureTime")
     private LocalDateTime departureTime;
 
-    @Column(name = "arrivalTime")
+    @Column(name = "arrival_time")
     private LocalDateTime arrivalTime;
 
     @OneToOne
@@ -32,9 +32,9 @@ public class Flight {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "flight")
     private List<FlightCrew> flightCrewList;
 
-    @Column(name = "fromCity")
-    private String fromCity;
+    @Column(name = "from_airport")
+    private String fromAirport;
 
-    @Column(name = "toCity")
-    private String toCity;
+    @Column(name = "to_airport")
+    private String toAirport;
 }

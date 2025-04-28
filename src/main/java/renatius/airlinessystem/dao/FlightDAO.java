@@ -1,7 +1,6 @@
 package renatius.airlinessystem.dao;
 
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
-import renatius.airlinessystem.Entity.GroundUnit.City;
 
 import java.util.List;
 

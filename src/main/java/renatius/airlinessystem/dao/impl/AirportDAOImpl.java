@@ -2,52 +2,52 @@ package renatius.airlinessystem.dao.impl;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import renatius.airlinessystem.Entity.GroundUnit.City;
+import renatius.airlinessystem.Entity.GroundUnit.Airport;
 import renatius.airlinessystem.Hibernate.HibernateUtil;
-import renatius.airlinessystem.dao.CityDAO;
+import renatius.airlinessystem.dao.AirportDAO;
 
 import java.util.List;
 
-public class CityDAOImpl implements CityDAO {
+public class AirportDAOImpl implements AirportDAO {
     @Override
-    public City findById(int id){
-        return HibernateUtil.getSessionFactory().openSession().get(City.class, id);
+    public Airport findById(int id){
+        return HibernateUtil.getSessionFactory().openSession().get(Airport.class, id);
     }
 
-    public City findByName(String name){
-        return HibernateUtil.getSessionFactory().openSession().get(City.class, name);
+    public Airport findByName(String name){
+        return HibernateUtil.getSessionFactory().openSession().get(Airport.class, name);
     }
 
     @Override
-    public void save(City city) {
+    public void save(Airport airport) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        session.save(city);
+        session.save(airport);
         tx.commit();
         session.close();
     }
 
     @Override
-    public void delete(City city) {
+    public void delete(Airport airport) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        session.delete(city);
+        session.delete(airport);
         tx.commit();
         session.close();
     }
 
     @Override
-    public void update(City city) {
+    public void update(Airport airport) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
-        session.update(city);
+        session.update(airport);
         tx.commit();
         session.close();
     }
 
     @Override
-    public List<City> findAll() {
-        List<City> cities = HibernateUtil.getSessionFactory().openSession().createQuery("from City").list();
+    public List<Airport> findAll() {
+        List<Airport> cities = HibernateUtil.getSessionFactory().openSession().createQuery("from Airport").list();
         return cities;
     }
 
