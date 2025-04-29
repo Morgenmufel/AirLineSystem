@@ -4,10 +4,10 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:postgresql://localhost:5431/java</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5438/java</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.username">renat_yan</property>
-        <property name="connection.password">ggwp</property>
+        <property name="connection.password">students</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.show_sql">true</property>
     </session-factory>

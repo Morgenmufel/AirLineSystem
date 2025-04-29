@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="630.0" prefWidth="850.0" styleClass="anchor3" stylesheets="@application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="renatius.airlinessystem.Controllers.AirplaneWindowController">
    <children>
-      <TableView layoutX="14.0" layoutY="12.0" prefHeight="607.0" prefWidth="430.0">
+      <TableView fx:id="airplaneTableView" layoutX="14.0" layoutY="12.0" prefHeight="607.0" prefWidth="430.0">
          <columns>
             <TableColumn fx:id="name_column" prefWidth="97.0" text="Название" />
             <TableColumn fx:id="model_column" prefWidth="107.0" text="Модель" />

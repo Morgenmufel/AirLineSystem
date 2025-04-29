@@ -3,8 +3,8 @@ services:
     image: 'postgres:13'
     container_name: 'AirLinesSystem-postgres'
     ports:
-      - 5431:5432
+      - 5438:5432
     environment:
       - 'POSTGRES_USER=renat_yan'
       - 'POSTGRES_DB=java'
-      - 'POSTGRES_PASSWORD=ggwp'
+      - 'POSTGRES_PASSWORD=students'

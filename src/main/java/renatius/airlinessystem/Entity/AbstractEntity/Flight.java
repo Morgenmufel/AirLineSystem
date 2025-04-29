@@ -26,7 +26,7 @@ public class Flight {
     @Column(name = "arrival_time")
     private LocalDateTime arrivalTime;
 
-    @OneToOne
+    @OneToOne(mappedBy = "flight")
     private AirPlane airPlane;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "flight")

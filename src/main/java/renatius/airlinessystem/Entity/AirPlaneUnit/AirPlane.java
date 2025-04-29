@@ -3,7 +3,6 @@ package renatius.airlinessystem.Entity.AirPlaneUnit;
 import jakarta.persistence.*;
 import lombok.*;
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
-import renatius.airlinessystem.Entity.Enum.AirPlaneStatus;
 
 @Entity
 @Table(name = "air_plane")
@@ -15,15 +14,16 @@ import renatius.airlinessystem.Entity.Enum.AirPlaneStatus;
 public class AirPlane {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int airplane_id;
     @Column(name = "plane_name")
     private String planeName;
     @Column(name = "air_plane_model")
     private String airPlaneModel;
     @Column(name = "air_plane_status")
-    private AirPlaneStatus airPlaneStatus;
+    private String airPlaneStatus;
     @Column(name="long_of_way")
     private int longOfWay;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "flight_id")
     private Flight flight;
 }

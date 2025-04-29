@@ -3,7 +3,6 @@ package renatius.airlinessystem.Entity.Crew;
 import jakarta.persistence.*;
 import lombok.*;
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
-import renatius.airlinessystem.Entity.Enum.CrewStatus;
 
 @Entity
 @Table(name = "flight_crew")
@@ -12,23 +11,28 @@ import renatius.airlinessystem.Entity.Enum.CrewStatus;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class FlightCrew {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int crewID;
+    private int crew_id;
 
     @Column(name = "crew_name")
     private String crewName;
 
-    @Column(name = "crew_surname")
-    private String crewSurname;
-
-    @Column(name = "crew_lastname")
-    private String crewLastname;
 
     @Column(name = "crew_status")
-    private CrewStatus status;
+    private String status;
+
+    @Column(name = "crew_age")
+    private int age;
+
+    @Column(name = "crew_sex")
+    private String sex;
+
+    @Column(name = "crew_post")
+    private String post;
 
     @ManyToOne
     @JoinColumn(name = "flight_id")
