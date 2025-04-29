@@ -9,9 +9,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import renatius.airlinessystem.Entity.Crew.FlightCrew;
 import renatius.airlinessystem.Entity.Enum.WeatherStatus;
 import renatius.airlinessystem.Entity.GroundUnit.Airport;
 import renatius.airlinessystem.services.impl.AirportServiceImpl;
+import renatius.airlinessystem.services.impl.CrewServiceImpl;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -103,18 +105,67 @@ public class AirportWindowController {
     public void AddAirport(){
         AirportServiceImpl airportService = new AirportServiceImpl();
         Airport airport = new Airport();
-        airport.setName(name_field.getText());
-        airport.setCountry(country_field.getText());
-        WeatherStatus weatherStatus = WeatherStatus.valueOf(choose_status_box.getValue());
+        String name =name_field.getText();
+        String country =country_field.getText();
+        if(name.isEmpty() || country.isEmpty()){
+            error_add_label.setText("Заполните все поля");
+            return;
+        }
+        airport.setName(name);
+        airport.setCountry(country);
+        if(WeatherStatus.valueOf(choose_status_box.getValue()) == null){
+            error_add_label.setText("Выберите погодные условия");
+            return;
+        }
+        else {
+            WeatherStatus weatherStatus = WeatherStatus.valueOf(choose_status_box.getValue());
         System.out.println(weatherStatus);
         airport.setWeatherStatus(weatherStatus);
         airportService.addAirport(airport);
         ViewAirports();
+        }
     }
 
-    public void EditAirport(){};
+    public void EditAirport(){
+        AirportServiceImpl airportService = new AirportServiceImpl();
+        Airport airport = AirportTableView.getSelectionModel().getSelectedItem();
+        if (airport == null){
+            error_edit_label.setText("Выберите аэропорт");
+            return;
+        }
+        String name = rename_field.getText();
+        String country = recountry_field.getText();
+        WeatherStatus weatherStatus = WeatherStatus.valueOf(rechoose_status_box.getValue());
+        if (name.isEmpty() || country.isEmpty() || weatherStatus == null){
+            error_edit_label.setText("Заполните все строки");
+            return;
+        }
+        try {
+            airport.setName(name);
+            airport.setCountry(country);
+            airport.setWeatherStatus(weatherStatus);
+            airportService.updateAirport(airport);
+            ViewAirports();
+            error_edit_label.setText("Самолёт успешно изменён!");
+            rename_field.clear();
+            recountry_field.clear();
+        }catch (Exception e){
+            error_edit_label.setText("Ошибка при обновлении: " + e.getMessage());
+        }
 
-    public void DeleteAirport(){};
+        ViewAirports();
+    };
+
+    public void DeleteAirport(){
+        AirportServiceImpl airportService = new AirportServiceImpl();
+        Airport airport = AirportTableView.getSelectionModel().getSelectedItem();
+        if (airport == null){
+            error_delete_button.setText("Выберите аэропорт");
+            return;
+        }
+        airportService.deleteAirport(airport);
+        ViewAirports();
+    };
 
     public void logout(){
         exitButton.getScene().getWindow().hide();

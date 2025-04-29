@@ -89,36 +89,59 @@ public class AirplaneWindowController {
     public void AddAirplane(){
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
         AirPlane airPlane = new AirPlane();
-        if(!name_column.getText().isEmpty()) airPlane.setPlaneName(name_field.getText().trim());
-        if(!model_field.getText().isEmpty()) airPlane.setAirPlaneModel(model_field.getText().trim());
+        if(!name_column.getText().isEmpty()) {
+            airPlane.setPlaneName(name_field.getText().trim());
+        }
+        else{
+            error_add_label.setText("Please enter a name for the airplane");
+            return;
+        }
+        if(!model_field.getText().isEmpty()) {
+            airPlane.setAirPlaneModel(model_field.getText().trim());
+        }else {
+            error_add_label.setText("Please enter a model for the airplane");
+            return;
+        }
         airPlane.setAirPlaneStatus("FREE");
         airPlaneService.addAirPlane(airPlane);
         ViewAirplanes();
     };
 
     public void EditAirplane(){
+        AirPlane selectedPlane = airplaneTableView.getSelectionModel().getSelectedItem();
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
-        airplaneTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null)  {
-                AirPlane selected_plane = airplaneTableView.getSelectionModel().getSelectedItem();
-                selected_plane.setPlaneName(name_field.getText().trim());
-                selected_plane.setAirPlaneModel(model_field.getText().trim());
-                airPlaneService.updateAirPlane(selected_plane);
-                error_edit_label.setText("Самолёт изменён!");
-            }
-        });
-        ViewAirplanes();
+        if (selectedPlane == null) {
+            error_edit_label.setText("Ошибка: выберите самолёт из таблицы!");
+            return;
+        }
+        String newName = rename_field.getText().trim();
+        String newModel = remodel_field.getText().trim();
+        if (newName.isEmpty() || newModel.isEmpty()) {
+            error_edit_label.setText("Ошибка: заполните все поля!");
+            return;
+        }
+        try {
+            selectedPlane.setPlaneName(newName);
+            selectedPlane.setAirPlaneModel(newModel);
+            airPlaneService.updateAirPlane(selectedPlane);
+            ViewAirplanes();
+            error_edit_label.setText("Самолёт успешно изменён!");
+            rename_field.clear();
+            remodel_field.clear();
+        } catch (Exception e) {
+            error_edit_label.setText("Ошибка при обновлении: " + e.getMessage());
+        }
+
     };
 
     public void DeleteAirplane(){
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
-        airplaneTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                AirPlane selected_airplane = airplaneTableView.getSelectionModel().getSelectedItem();
-                airPlaneService.deleteAirPlane(selected_airplane);
-                error_delete_label.setText("Самолёт удалён!");
-            }
-        });
+        AirPlane airPlane = airplaneTableView.getSelectionModel().getSelectedItem();
+        if (airPlane == null) {
+            error_delete_label.setText("Выберите самолёт");
+            return;
+        }
+        airPlaneService.deleteAirPlane(airPlane);
         ViewAirplanes();
     };
 

@@ -151,13 +151,24 @@ public class EmployeesWindowController {
                 break;
         }
         CrewServiceImpl crewService = new CrewServiceImpl();
-        if(checkEmptyString(name_field.getText().trim()) && checkEmptyString(surname_field.getText().trim()) && checkEmptyString(patronymic_field.getText().trim()))flightCrew.setCrewName(surname_field.getText().trim() + " " + name_field.getText().trim() + " " + patronymic_field.getText().trim());
-        if(checkEmptyString(age_field_field.getText().trim()))flightCrew.setAge(Integer.parseInt(age_field_field.getText().trim()));
+        if(checkEmptyString(name_field.getText().trim()) && checkEmptyString(surname_field.getText().trim()) && checkEmptyString(patronymic_field.getText().trim())){
+            flightCrew.setCrewName(surname_field.getText().trim() + " " + name_field.getText().trim() + " " + patronymic_field.getText().trim());
+        }else {
+            error_add_label.setText("Заполните ФИО");
+            return;
+        }
+        if(checkEmptyString(age_field_field.getText().trim())){
+            flightCrew.setAge(Integer.parseInt(age_field_field.getText().trim()));
+        }else {error_add_label.setText("Заполните возраст");}
         flightCrew.setStatus("FREE");
         if (man_rbutton.isSelected()){
             flightCrew.setSex("Мужчина");
         }else if (woman_rbutton.isSelected()){
             flightCrew.setSex("Женщина");
+        }
+        else {
+            error_add_label.setText("Выберите пол сотрудника");
+            return;
         }
         crewService.addCrew(flightCrew);
         ViewEmployees();
@@ -165,14 +176,12 @@ public class EmployeesWindowController {
 
     public void DeleteEmployee() {
         CrewServiceImpl crewService = new CrewServiceImpl();
-        error_delete_label.setText("Выберите пользователя!");
-        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                FlightCrew selected_user = employeeTableView.getSelectionModel().getSelectedItem();
-                crewService.deleteCrew(selected_user);
-                error_delete_label.setText("Пользователь удалён!");
-            }
-        });
+        FlightCrew flightCrew = employeeTableView.getSelectionModel().getSelectedItem();
+        if (flightCrew == null){
+            error_delete_label.setText("Выберите пользователя");
+            return;
+        }
+        crewService.deleteCrew(flightCrew);
         ViewEmployees();
     }
 
