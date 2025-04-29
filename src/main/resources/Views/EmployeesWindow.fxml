@@ -32,15 +32,12 @@
       <ChoiceBox fx:id="choose_position_box" layoutX="517.0" layoutY="387.0" prefHeight="36.0" prefWidth="162.0" styleClass="courseChoiceBox" stylesheets="@../../../../../../JavaUI/lab5-fx/src/application.css" />
       <Label fx:id="error_delete_label" alignment="CENTER" contentDisplay="CENTER" layoutX="518.0" layoutY="557.0" prefHeight="20.0" prefWidth="285.0" styleClass="error" />
       <TextField fx:id="age_field_field" layoutX="517.0" layoutY="291.0" prefHeight="36.0" prefWidth="285.0" promptText="Возраст" styleClass="text-field" />
-      <RadioButton fx:id="man_rbutton" layoutX="531.0" layoutY="333.0" mnemonicParsing="false" styleClass="label2" stylesheets="@application.css" text="Мужской">
+      <RadioButton fx:id="man_rbutton" layoutX="531.0" layoutY="333.0" mnemonicParsing="false" styleClass="label2" stylesheets="@application.css" text="Мужской" toggleGroup="$post">
          <toggleGroup>
-            <ToggleGroup fx:id="time" />
+            <ToggleGroup fx:id="post" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="woman_rbutton" layoutX="679.0" layoutY="334.0" mnemonicParsing="false" styleClass="label2" text="Женский">
-         <toggleGroup>
-            <ToggleGroup fx:id="time1" />
-         </toggleGroup>
+      <RadioButton fx:id="woman_rbutton" layoutX="679.0" layoutY="334.0" mnemonicParsing="false" styleClass="label2" text="Женский" toggleGroup="$post">
       </RadioButton>
       <Button fx:id="exitButton" layoutX="584.0" layoutY="580.0" mnemonicParsing="false" onAction="#logout" prefHeight="20.0" prefWidth="151.0" styleClass="exit" text="Выход" />
    </children>

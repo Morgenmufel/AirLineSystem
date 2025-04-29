@@ -13,7 +13,10 @@
 }  .anchor4{
      -fx-background-image: url('../static/image/frame3.jpg');
      -fx-background-size: cover;
- }
+ } .anchor5{
+                -fx-background-image: url('../static/image/frame4.jpg');
+                -fx-background-size: cover;
+            }
 
 .label.main {
     -fx-padding: 5px; /* Внутренний отступ текста */

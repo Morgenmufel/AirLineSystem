@@ -12,22 +12,67 @@ import java.io.IOException;
 public class FlightWindowController {
 
     @FXML
+    private Button view_flight_button;
+
+    @FXML
     private Button add_flight_button;
 
     @FXML
     private Button edit_flight_button;
 
     @FXML
-    private Button delete_flight_button;
-
-    @FXML
     private Button exitButton;
 
-    public void loadSceneWithAddingFlight(){};
+    public void loadSceneWithViewingFlight (){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/ViewFlightWindow.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        exitButton.getScene().getWindow().hide();
+        Parent root=loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Авиарейсы");
+        stage.setResizable(false);
+        root.requestFocus();
+        stage.show();
+    };
 
-    public void loadSceneWithEditingFlight(){};
+    public void loadSceneWithAddingFlight(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/AddFlightWindow.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        exitButton.getScene().getWindow().hide();
+        Parent root=loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Авиарейсы");
+        stage.setResizable(false);
+        root.requestFocus();
+        stage.show();
+    };
 
-    public void loadSceneWithDeletingFlight(){};
+    public void loadSceneWithEditingAndDeletingFlight(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/FlightEditAndDeleteWindow.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        exitButton.getScene().getWindow().hide();
+        Parent root=loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Авиарейсы");
+        stage.setResizable(false);
+        root.requestFocus();
+        stage.show();
+    };
 
     public void logout(){
         exitButton.getScene().getWindow().hide();
