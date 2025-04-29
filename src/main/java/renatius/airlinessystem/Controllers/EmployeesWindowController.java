@@ -10,10 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.Crew.*;
-import renatius.airlinessystem.Entity.Enum.CrewStatus;
 import renatius.airlinessystem.services.impl.CrewServiceImpl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class EmployeesWindowController {
 
@@ -71,11 +71,31 @@ public class EmployeesWindowController {
     @FXML
     public void initialize() {
         CrewServiceImpl crewService = new CrewServiceImpl();
-        ObservableList< FlightCrew> flightCrews = FXCollections.observableArrayList(crewService.getAllCrew());
+        ObservableList< FlightCrew> flightCrews = null;
+        try{
+         flightCrews = FXCollections.observableArrayList(crewService.getAllCrew());
+        }catch (Exception e){
+            System.out.println("Список пуст");
+            e.printStackTrace();
+        }
         employeeTableView.setItems(flightCrews);
         full_name_column.setCellValueFactory(new PropertyValueFactory<>("crewName"));
         post_column.setCellValueFactory(new PropertyValueFactory<>("post"));
         status_column.setCellValueFactory(new PropertyValueFactory<>("status"));
+        ArrayList<String> flightCrews1 = new ArrayList<String>(){{
+            add("AirborneSensorOperator");
+            add("Captain");
+            add("FirstOfficer");
+            add("FlightAttendant");
+            add("FlightEngineer");
+            add("FlightMedic");
+            add("Purser");
+            add("ReliefCrew");
+            add("SecondOfficer");
+            add("ThirdOfficer");
+        }};
+        choose_position_box.getItems().addAll(flightCrews1);
+        String s = choose_position_box.getValue();
     }
 
 
@@ -133,7 +153,7 @@ public class EmployeesWindowController {
         CrewServiceImpl crewService = new CrewServiceImpl();
         if(checkEmptyString(name_field.getText().trim()) && checkEmptyString(surname_field.getText().trim()) && checkEmptyString(patronymic_field.getText().trim()))flightCrew.setCrewName(surname_field.getText().trim() + " " + name_field.getText().trim() + " " + patronymic_field.getText().trim());
         if(checkEmptyString(age_field_field.getText().trim()))flightCrew.setAge(Integer.parseInt(age_field_field.getText().trim()));
-        flightCrew.setStatus(CrewStatus.FREE);
+        flightCrew.setStatus("FREE");
         if (man_rbutton.isSelected()){
             flightCrew.setSex("Мужчина");
         }else if (woman_rbutton.isSelected()){

@@ -3,8 +3,6 @@ package renatius.airlinessystem.services.impl;
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
-import renatius.airlinessystem.Entity.Enum.AirPlaneStatus;
-import renatius.airlinessystem.Entity.Enum.CrewStatus;
 import renatius.airlinessystem.Entity.Enum.WeatherStatus;
 import renatius.airlinessystem.Entity.GroundUnit.Airport;
 import renatius.airlinessystem.services.MainService;
@@ -57,11 +55,11 @@ public class MainServiceImpl implements MainService {
         flight.setFromAirport(fromAirport);
         flight.setToAirport(toAirport);
         airPlane.setFlight(flight);
-        airPlane.setAirPlaneStatus(AirPlaneStatus.ASSIGNED);
+        airPlane.setAirPlaneStatus("ASSIGNED");
         flight.setFlightCrewList(flightCrewList);
         flightCrewList.forEach(flightCrew -> {
             flightCrew.setFlight(flight);
-            flightCrew.setStatus(CrewStatus.ASSIGNED);
+            flightCrew.setStatus("ASSIGNED");
             crewService.updateCrew(flightCrew);
         });
         airPlaneService.updateAirPlane(airPlane);
