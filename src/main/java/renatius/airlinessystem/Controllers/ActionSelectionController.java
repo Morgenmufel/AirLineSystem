@@ -77,7 +77,20 @@ public class ActionSelectionController {
     }
 
     public void loadSceneWithWorkingOnAirports() {
-
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/AirportWindow.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        exitButton.getScene().getWindow().hide();
+        Parent root=loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Челики");
+        stage.setResizable(false);
+        root.requestFocus();
+        stage.show();
     }
     public void logout(){
         exitButton.getScene().getWindow().hide();
