@@ -44,7 +44,18 @@ public class AirPlaneDAOImpl implements AirPlaneDAO {
 
     @Override
     public List<AirPlane> findAll() {
-        List<AirPlane> airPlanes = HibernateUtil.getSessionFactory().openSession().createQuery("from AirPlane").list();
+        List<AirPlane> airPlanes = HibernateUtil.getSessionFactory().openSession().createQuery("from AirPlane", AirPlane.class).list();
         return airPlanes;
+    }
+    @Override
+    public List<AirPlane> findByStatus() {
+        List<AirPlane> airPlanes = HibernateUtil.getSessionFactory().openSession().createQuery("from AirPlane where airPlaneStatus = :status", AirPlane.class).setParameter("status", "FREE").list();
+                return airPlanes;
+    }
+
+    @Override
+    public AirPlane findByName(String name) {
+        AirPlane airPlane = HibernateUtil.getSessionFactory().openSession().createQuery("from AirPlane where planeName = :name", AirPlane.class).setParameter("name", name).uniqueResult();
+        return airPlane;
     }
 }

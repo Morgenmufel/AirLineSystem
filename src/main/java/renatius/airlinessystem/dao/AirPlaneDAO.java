@@ -10,4 +10,6 @@ public interface AirPlaneDAO {
     public void delete(AirPlane airPlane);
     public void update(AirPlane airPlane);
     public List<AirPlane> findAll();
+    public List<AirPlane> findByStatus();
+    public AirPlane findByName(String name);
 }

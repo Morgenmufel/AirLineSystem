@@ -1,5 +1,7 @@
 package renatius.airlinessystem.Controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
+import renatius.airlinessystem.services.impl.FlightServiceImpl;
 
 import java.io.IOException;
 import java.nio.Buffer;
@@ -38,6 +41,13 @@ public class ViewFlightWindowController {
 
     @FXML
     private Button exitButton;
+
+    @FXML
+    public void initialize() {
+        FlightServiceImpl service = new FlightServiceImpl();
+        ObservableList<Flight> flights = FXCollections.observableArrayList(service.getAllFlights());
+        AirportTableView.getItems().setAll(flights);
+    }
 
     public void logout(){
         exitButton.getScene().getWindow().hide();
