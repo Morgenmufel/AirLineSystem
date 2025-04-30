@@ -18,6 +18,7 @@ import java.util.*;
 public class Flight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "flight_id")
     private int id;
 
     @Column(name = "departureTime")

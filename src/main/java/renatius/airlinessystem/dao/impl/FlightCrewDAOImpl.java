@@ -49,7 +49,7 @@ public class FlightCrewDAOImpl implements FlightCrewDAO {
 
     @Override
     public List<FlightCrew> findByStatus() {
-        List<FlightCrew> flightCrewList = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where crew_staus = FREE").list();
+        List<FlightCrew> flightCrewList = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where status = 'FREE'").list();
         return flightCrewList;
     }
 }

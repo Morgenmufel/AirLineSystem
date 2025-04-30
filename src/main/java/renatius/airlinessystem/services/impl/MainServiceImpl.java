@@ -2,9 +2,10 @@ package renatius.airlinessystem.services.impl;
 
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
-import renatius.airlinessystem.Entity.Crew.FlightCrew;
+import renatius.airlinessystem.Entity.Crew.*;
 import renatius.airlinessystem.Entity.Enum.WeatherStatus;
 import renatius.airlinessystem.Entity.GroundUnit.Airport;
+import renatius.airlinessystem.Hibernate.HibernateUtil;
 import renatius.airlinessystem.services.MainService;
 
 import java.time.LocalDate;
@@ -37,9 +38,16 @@ public class MainServiceImpl implements MainService {
     public Flight createFlight(LocalDateTime departureTime, AirPlane airPlane, String fromAirport, String toAirport) {
         Flight flight = new Flight();
         Random random = new Random();
-        Airport whereArrive = airportService.findAirportByName(toAirport);
-        Airport whereDepart = airportService.findAirportByName(fromAirport);
-        List<FlightCrew> flightCrewList = crewService.getCrewByStatus();
+        List<FlightCrew> flightCrewList = null;
+        Airport whereArrive = null;
+        Airport whereDepart = null;
+        try {
+            whereArrive = airportService.findAirportByName(toAirport);
+            whereDepart = airportService.findAirportByName(fromAirport);
+            flightCrewList = getFlightCrews(crewService.getCrewByStatus());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (flightCrewList == null) {
             return null;
         }
@@ -47,7 +55,7 @@ public class MainServiceImpl implements MainService {
             System.out.println("Погодные условия ужасны");
             return null;
         }
-        LocalDateTime arrivalTime = LocalDateTime.of(LocalDate.of(departureTime.getYear(), departureTime.getMonth().getValue(), departureTime.getDayOfMonth() + random.nextInt(64)),
+        LocalDateTime arrivalTime = LocalDateTime.of(LocalDate.of(departureTime.getYear(), departureTime.getMonth().getValue(), departureTime.getDayOfMonth()),
                 LocalTime.of(random.nextInt(24), random.nextInt(60)));
         flight.setDepartureTime(departureTime);
         flight.setArrivalTime(arrivalTime);
@@ -55,6 +63,7 @@ public class MainServiceImpl implements MainService {
         flight.setFromAirport(fromAirport);
         flight.setToAirport(toAirport);
         airPlane.setFlight(flight);
+        flightService.addFlight(flight);
         airPlane.setAirPlaneStatus("ASSIGNED");
         flight.setFlightCrewList(flightCrewList);
         flightCrewList.forEach(flightCrew -> {
@@ -63,7 +72,6 @@ public class MainServiceImpl implements MainService {
             crewService.updateCrew(flightCrew);
         });
         airPlaneService.updateAirPlane(airPlane);
-        flightService.addFlight(flight);
         return flight;
     }
 
@@ -79,5 +87,39 @@ public class MainServiceImpl implements MainService {
         else if(whereArrive.getWeatherStatus().equals(WeatherStatus.STRONGRAIN)) return false;
         else if (whereDepart.getWeatherStatus().equals(WeatherStatus.STRONGRAIN)) return false;
         else return true;
+    }
+
+
+    public List<FlightCrew> getFlightCrews(List<FlightCrew> allCrews){
+        List<FlightCrew> flightCrewList = null;
+        try {
+            FlightCrew captain = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'Captain'", Captain.class).getSingleResult();
+            FlightCrew firstOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FirstOfficer'", FirstOfficer.class).getSingleResult();
+            FlightCrew secondOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'SecondOfficer'", SecondOfficer.class).getSingleResult();
+            FlightCrew thirdOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'ThirdOfficer'", ThirdOfficer.class).getSingleResult();
+            FlightCrew purser = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'Purser'", Purser.class).getSingleResult();
+            FlightCrew flightAttendant = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightAttendant'", FlightAttendant.class).getSingleResult();
+            FlightCrew flightEngineering = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightEngineer'", FlightEngineer.class).setMaxResults(1).getSingleResult();
+            FlightCrew flightMedic = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightMedic'", FlightMedic.class).getSingleResult();
+            FlightCrew reliefCrew = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'ReliefCrew'", ReliefCrew.class).getSingleResult();
+            FlightCrew airBornSensorOperator = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'AirborneSensorOperator'", AirborneSensorOperator.class).getSingleResult();
+
+            flightCrewList = new ArrayList<>(){{
+                add(captain);
+                add(firstOfficer);
+                add(secondOfficer);
+                add(thirdOfficer);
+                add(thirdOfficer);
+                add(purser);
+                add(flightAttendant);
+                add(flightEngineering);
+                add(flightMedic);
+                add(reliefCrew);
+            }};
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        return flightCrewList;
     }
 }

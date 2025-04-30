@@ -14,11 +14,13 @@ import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
 import renatius.airlinessystem.Entity.GroundUnit.Airport;
 import renatius.airlinessystem.services.impl.AirPlaneServiceImpl;
 import renatius.airlinessystem.services.impl.AirportServiceImpl;
+import renatius.airlinessystem.services.impl.MainServiceImpl;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -69,8 +71,10 @@ public class AddFlightWindowController {
         Flight flight = new Flight();
         AirportServiceImpl airportService = new AirportServiceImpl();
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
-        LocalDate arriveDate = LocalDate.parse(date_field.getText());
-        LocalTime arriveTime = LocalTime.parse(time_field.getText());
+        DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate arriveDate = LocalDate.parse(date_field.getText(), formatterDate);
+        DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime arriveTime = LocalTime.parse(time_field.getText(), formatterTime);
         String airPlaneName = choose_airplane_box.getSelectionModel().getSelectedItem();
         String whereAirport = departure_airport_box.getSelectionModel().getSelectedItem();
         String toAirport = arrival_airport_box.getSelectionModel().getSelectedItem();
@@ -95,7 +99,9 @@ public class AddFlightWindowController {
             return;
         }
         AirPlane airPlane = airPlaneService.findByName(airPlaneName);
-
+        MainServiceImpl mainService = new MainServiceImpl();
+        LocalDateTime localDateTime = LocalDateTime.of(arriveDate, arriveTime);
+        mainService.createFlight(localDateTime, airPlane, whereAirport, toAirport);
     };
 
 
