@@ -1,5 +1,7 @@
 package renatius.airlinessystem.Controllers;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,7 +32,7 @@ public class AirplaneWindowController {
     private TableColumn<AirPlane,String> status_column;
 
     @FXML
-    private TableColumn<AirPlane,String> flight_column;
+    private TableColumn<AirPlane,Integer> flight_column;
 
     @FXML
     private Button view_button;
@@ -76,7 +78,13 @@ public class AirplaneWindowController {
         name_column.setCellValueFactory(new PropertyValueFactory<>("planeName"));
         model_column.setCellValueFactory(new PropertyValueFactory<>("airPlaneModel"));
         status_column.setCellValueFactory(new PropertyValueFactory<>("airPlaneStatus"));
-        flight_column.setCellValueFactory(new PropertyValueFactory<>("flight"));
+        flight_column.setCellValueFactory(cellData -> {
+            AirPlane airPlane = cellData.getValue();
+            if (airPlane.getFlight() != null) {
+                return new SimpleIntegerProperty(airPlane.getFlight().getId()).asObject();
+            }
+            return new SimpleIntegerProperty(0).asObject();
+        });
     }
 
     public void ViewAirplanes(){
@@ -84,6 +92,7 @@ public class AirplaneWindowController {
         ObservableList<AirPlane> airPlanes = FXCollections.observableList(airPlaneService.getAllAirPlanes());
         airplaneTableView.getItems().clear();
         airplaneTableView.getItems().addAll(airPlanes);
+
     };
 
     public void AddAirplane(){
