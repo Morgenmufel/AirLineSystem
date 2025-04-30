@@ -15,7 +15,7 @@ public class AirportDAOImpl implements AirportDAO {
     }
 
     public Airport findByName(String name){
-        return HibernateUtil.getSessionFactory().openSession().get(Airport.class, name);
+        return HibernateUtil.getSessionFactory().openSession().createQuery("from Airport where name = :nameair", Airport.class).setParameter("nameair", name).getSingleResult();
     }
 
     @Override

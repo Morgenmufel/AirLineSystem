@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.Crew.*;
 import renatius.airlinessystem.services.impl.CrewServiceImpl;
@@ -96,6 +97,52 @@ public class EmployeesWindowController {
         }};
         choose_position_box.getItems().addAll(flightCrews1);
         String s = choose_position_box.getValue();
+        ///////////////////////////////////////////////////////////////
+        full_name_column.setCellFactory(col -> {
+            TableCell<FlightCrew, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(col.widthProperty().subtract(10));
+                    setGraphic(text);
+                    setPrefHeight(Control.USE_COMPUTED_SIZE);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        text.setText("");
+                    } else {
+                        text.setText(item);
+                    }
+                }
+            };
+            return cell;
+        });
+
+        post_column.setCellFactory(col -> {
+            TableCell<FlightCrew, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(col.widthProperty().subtract(10));
+                    setGraphic(text);
+                    setPrefHeight(Control.USE_COMPUTED_SIZE);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        text.setText("");
+                    } else {
+                        text.setText(item);
+                    }
+                }
+            };
+            return cell;
+        });
     }
 
 
@@ -108,6 +155,10 @@ public class EmployeesWindowController {
 
     public void AddNewEmployee(){
         FlightCrew flightCrew;
+        if(choose_position_box.getValue()==null){
+            error_add_label.setText("Выберите должность");
+            return;
+        }
         switch (choose_position_box.getValue()){
             case "AirborneSensorOperator":
                 flightCrew = new AirborneSensorOperator();
@@ -145,34 +196,52 @@ public class EmployeesWindowController {
                 flightCrew = new SecondOfficer();
                 flightCrew.setPost("SecondOfficer");
                 break;
-            default: case "ThirdOfficer":
+            case "ThirdOfficer":
                 flightCrew = new ThirdOfficer();
                 flightCrew.setPost("ThirdOfficer");
                 break;
+            default: error_add_label.setText("Выберите должность");
+                return;
         }
         CrewServiceImpl crewService = new CrewServiceImpl();
-        if(checkEmptyString(name_field.getText().trim()) && checkEmptyString(surname_field.getText().trim()) && checkEmptyString(patronymic_field.getText().trim()))flightCrew.setCrewName(surname_field.getText().trim() + " " + name_field.getText().trim() + " " + patronymic_field.getText().trim());
-        if(checkEmptyString(age_field_field.getText().trim()))flightCrew.setAge(Integer.parseInt(age_field_field.getText().trim()));
+        if(checkEmptyString(name_field.getText().trim()) && checkEmptyString(surname_field.getText().trim()) && checkEmptyString(patronymic_field.getText().trim())){
+            flightCrew.setCrewName(surname_field.getText().trim() + " " + name_field.getText().trim() + " " + patronymic_field.getText().trim());
+        }else {
+            error_add_label.setText("Заполните ФИО полностью");
+            return;
+        }
+        try{
+            flightCrew.setAge(Integer.parseInt(age_field_field.getText().trim()));
+        }catch(Exception e){
+            error_add_label.setText("Введите число");
+            return;
+        }
+        if(checkEmptyString(age_field_field.getText().trim())){
+            flightCrew.setAge(Integer.parseInt(age_field_field.getText().trim()));
+        }else {error_add_label.setText("Заполните возраст"); return;}
         flightCrew.setStatus("FREE");
         if (man_rbutton.isSelected()){
             flightCrew.setSex("Мужчина");
         }else if (woman_rbutton.isSelected()){
             flightCrew.setSex("Женщина");
         }
+        else {
+            error_add_label.setText("Выберите пол сотрудника");
+            return;
+        }
+
         crewService.addCrew(flightCrew);
         ViewEmployees();
-    };
+    }
 
     public void DeleteEmployee() {
         CrewServiceImpl crewService = new CrewServiceImpl();
-        error_delete_label.setText("Выберите пользователя!");
-        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                FlightCrew selected_user = employeeTableView.getSelectionModel().getSelectedItem();
-                crewService.deleteCrew(selected_user);
-                error_delete_label.setText("Пользователь удалён!");
-            }
-        });
+        FlightCrew flightCrew = employeeTableView.getSelectionModel().getSelectedItem();
+        if (flightCrew == null){
+            error_delete_label.setText("Выберите пользователя");
+            return;
+        }
+        crewService.deleteCrew(flightCrew);
         ViewEmployees();
     }
 

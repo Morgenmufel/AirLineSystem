@@ -14,8 +14,14 @@ import java.io.IOException;
 public class AirLinesSystemApplication extends Application {
 
     public static void main(String[] args) throws ClassNotFoundException {
+        Flyway.configure().dataSource("jdbc:postgresql://localhost:5438/java", "renat_yan", "students")
+                .baselineOnMigrate(true)
+                .locations("classpath:db/migration")
+                .load()
+                .migrate();
         launch();
     }
+
 
     @Override
     public void start(Stage stage) throws IOException {

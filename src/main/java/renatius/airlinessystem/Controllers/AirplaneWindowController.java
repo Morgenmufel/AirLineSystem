@@ -1,5 +1,7 @@
 package renatius.airlinessystem.Controllers;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
@@ -30,7 +33,7 @@ public class AirplaneWindowController {
     private TableColumn<AirPlane,String> status_column;
 
     @FXML
-    private TableColumn<AirPlane,String> flight_column;
+    private TableColumn<AirPlane,Integer> flight_column;
 
     @FXML
     private Button view_button;
@@ -76,7 +79,35 @@ public class AirplaneWindowController {
         name_column.setCellValueFactory(new PropertyValueFactory<>("planeName"));
         model_column.setCellValueFactory(new PropertyValueFactory<>("airPlaneModel"));
         status_column.setCellValueFactory(new PropertyValueFactory<>("airPlaneStatus"));
-        flight_column.setCellValueFactory(new PropertyValueFactory<>("flight"));
+        flight_column.setCellValueFactory(cellData -> {
+            AirPlane airPlane = cellData.getValue();
+            if (airPlane.getFlight() != null) {
+                return new SimpleIntegerProperty(airPlane.getFlight().getId()).asObject();
+            }
+            return new SimpleIntegerProperty(0).asObject();
+        });
+        name_column.setCellFactory(col -> {
+            TableCell<AirPlane, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(col.widthProperty().subtract(10));
+                    setGraphic(text);
+                    setPrefHeight(Control.USE_COMPUTED_SIZE);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        text.setText("");
+                    } else {
+                        text.setText(item);
+                    }
+                }
+            };
+            return cell;
+        });
     }
 
     public void ViewAirplanes(){
@@ -84,42 +115,78 @@ public class AirplaneWindowController {
         ObservableList<AirPlane> airPlanes = FXCollections.observableList(airPlaneService.getAllAirPlanes());
         airplaneTableView.getItems().clear();
         airplaneTableView.getItems().addAll(airPlanes);
+
     };
 
     public void AddAirplane(){
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
         AirPlane airPlane = new AirPlane();
-        if(!name_column.getText().isEmpty()) airPlane.setPlaneName(name_field.getText().trim());
-        if(!model_field.getText().isEmpty()) airPlane.setAirPlaneModel(model_field.getText().trim());
+        if(!name_field.getText().isEmpty()) {
+            airPlane.setPlaneName(name_field.getText().trim());
+        }
+        else{
+            error_add_label.setText("Please enter a name for the airplane");
+            return;
+        }
+        if(!model_field.getText().isEmpty()) {
+            airPlane.setAirPlaneModel(model_field.getText().trim());
+        }else {
+            error_add_label.setText("Please enter a model for the airplane");
+            return;
+        }
         airPlane.setAirPlaneStatus("FREE");
         airPlaneService.addAirPlane(airPlane);
         ViewAirplanes();
     };
 
     public void EditAirplane(){
+        AirPlane selectedPlane = airplaneTableView.getSelectionModel().getSelectedItem();
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
-        airplaneTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null)  {
-                AirPlane selected_plane = airplaneTableView.getSelectionModel().getSelectedItem();
-                selected_plane.setPlaneName(name_field.getText().trim());
-                selected_plane.setAirPlaneModel(model_field.getText().trim());
-                airPlaneService.updateAirPlane(selected_plane);
-                error_edit_label.setText("Самолёт изменён!");
+        if (selectedPlane == null) {
+            error_edit_label.setText("Ошибка: выберите самолёт из таблицы!");
+            return;
+        }
+        String newName = rename_field.getText().trim();
+        String newModel = remodel_field.getText().trim();
+        if (newName.isEmpty() && newModel.isEmpty()) {
+            error_edit_label.setText("Измените хотя бы одно поле");
+            return;
+        }
+        try {
+            if(!newName.isEmpty() && newModel.isEmpty()){
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setPlaneName(newName);
             }
-        });
-        ViewAirplanes();
+            else if(newName.isEmpty() && !newModel.isEmpty()){
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setAirPlaneModel(newModel);
+            }
+            else{
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setAirPlaneModel(newModel);
+                selectedPlane.setPlaneName(newName);
+            }
+            airPlaneService.updateAirPlane(selectedPlane);
+            ViewAirplanes();
+            error_edit_label.setText("Данные самолёта успешно изменены!");
+            rename_field.clear();
+            remodel_field.clear();
+        } catch (Exception e) {
+            error_edit_label.setText("Ошибка при обновлении: " + e.getMessage());
+        }
+
     };
 
     public void DeleteAirplane(){
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
-        airplaneTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                AirPlane selected_airplane = airplaneTableView.getSelectionModel().getSelectedItem();
-                airPlaneService.deleteAirPlane(selected_airplane);
-                error_delete_label.setText("Самолёт удалён!");
-            }
-        });
+        AirPlane airPlane = airplaneTableView.getSelectionModel().getSelectedItem();
+        if (airPlane == null) {
+            error_delete_label.setText("Выберите самолёт");
+            return;
+        }
+        airPlaneService.deleteAirPlane(airPlane);
         ViewAirplanes();
+        error_delete_label.setText("Самолёт удалён");
     };
 
     public void logout(){

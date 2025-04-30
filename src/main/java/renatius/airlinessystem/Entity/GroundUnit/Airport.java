@@ -24,6 +24,7 @@ public class Airport {
     @Column(name = "country")
     private String country;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "weather_status")
     private WeatherStatus weatherStatus;
 }

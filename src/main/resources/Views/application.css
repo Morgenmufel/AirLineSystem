@@ -13,7 +13,10 @@
 }  .anchor4{
      -fx-background-image: url('../static/image/frame3.jpg');
      -fx-background-size: cover;
- }
+ } .anchor5{
+                -fx-background-image: url('../static/image/frame4.jpg');
+                -fx-background-size: cover;
+            }
 
 .label.main {
     -fx-padding: 5px; /* Внутренний отступ текста */
@@ -85,8 +88,26 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0, 0, 2); /* Тень под кнопкой */
     -fx-border-color: transparent; /* Без границы */
 }
-.table-view{
-    -fx-font-size: 14px; /* Размер шрифта */
-    -fx-font-family: "Arial Black", sans-serif; /* Шрифт */
-    -fx-text-fill: black; /* Цвет текста */
+.table-view {
+    -fx-font-size: 12px;
+    -fx-font-family: "Arial Black", sans-serif;
+    -fx-text-fill: black;
+    -fx-padding: 5px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f0f0f0;
+}
+
+.table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial Black", sans-serif;
+    -fx-font-size: 13px;
+}
+
+.table-cell {
+    -fx-wrap-text: true;
+    -fx-alignment: top-left;
+    -fx-padding: 5px;
+    -fx-font-weight: normal;
 }

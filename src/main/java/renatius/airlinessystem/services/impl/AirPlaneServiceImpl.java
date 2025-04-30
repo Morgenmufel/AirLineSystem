@@ -29,6 +29,16 @@ public class AirPlaneServiceImpl implements AirPlaneService {
         airPlaneDAO.save(airPlane);
     }
 
+    @Override
+    public List<AirPlane> findByStatus() {
+        return airPlaneDAO.findByStatus();
+    }
+
+    @Override
+    public AirPlane findByName(String name) {
+        return airPlaneDAO.findByName(name);
+    }
+
     public void updateAirPlane(AirPlane airPlane){
         airPlaneDAO.update(airPlane);
     }

@@ -9,4 +9,6 @@ public interface AirPlaneService {
     public AirPlane getAirPlaneById(int id);
     public void deleteAirPlane(AirPlane airPlane);
     public void addAirPlane(AirPlane airPlane);
+    public List<AirPlane> findByStatus();
+    public AirPlane findByName(String name);
 }
