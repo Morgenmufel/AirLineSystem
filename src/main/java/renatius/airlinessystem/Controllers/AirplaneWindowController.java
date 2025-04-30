@@ -121,7 +121,7 @@ public class AirplaneWindowController {
     public void AddAirplane(){
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
         AirPlane airPlane = new AirPlane();
-        if(!name_column.getText().isEmpty()) {
+        if(!name_field.getText().isEmpty()) {
             airPlane.setPlaneName(name_field.getText().trim());
         }
         else{
@@ -148,16 +148,27 @@ public class AirplaneWindowController {
         }
         String newName = rename_field.getText().trim();
         String newModel = remodel_field.getText().trim();
-        if (newName.isEmpty() || newModel.isEmpty()) {
-            error_edit_label.setText("Ошибка: заполните все поля!");
+        if (newName.isEmpty() && newModel.isEmpty()) {
+            error_edit_label.setText("Измените хотя бы одно поле");
             return;
         }
         try {
-            selectedPlane.setPlaneName(newName);
-            selectedPlane.setAirPlaneModel(newModel);
+            if(!newName.isEmpty() && newModel.isEmpty()){
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setPlaneName(newName);
+            }
+            else if(newName.isEmpty() && !newModel.isEmpty()){
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setAirPlaneModel(newModel);
+            }
+            else{
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setAirPlaneModel(newModel);
+                selectedPlane.setPlaneName(newName);
+            }
             airPlaneService.updateAirPlane(selectedPlane);
             ViewAirplanes();
-            error_edit_label.setText("Самолёт успешно изменён!");
+            error_edit_label.setText("Данные самолёта успешно изменены!");
             rename_field.clear();
             remodel_field.clear();
         } catch (Exception e) {
@@ -175,6 +186,7 @@ public class AirplaneWindowController {
         }
         airPlaneService.deleteAirPlane(airPlane);
         ViewAirplanes();
+        error_delete_label.setText("Самолёт удалён");
     };
 
     public void logout(){

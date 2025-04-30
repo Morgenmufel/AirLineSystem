@@ -163,6 +163,10 @@ public class AirportWindowController {
         }
         String name = rename_field.getText();
         String country = recountry_field.getText();
+        if(rechoose_status_box.getValue() == null){
+            error_edit_label.setText("Выберите погодные условия");
+            return;
+        }
         WeatherStatus weatherStatus = WeatherStatus.valueOf(rechoose_status_box.getValue());
         try {
             if(!name.isEmpty()){
