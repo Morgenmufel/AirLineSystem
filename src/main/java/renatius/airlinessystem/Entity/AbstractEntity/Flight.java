@@ -38,4 +38,13 @@ public class Flight {
 
     @Column(name = "to_airport")
     private String toAirport;
+
+
+    public String getAllNamesOfCrew(){
+        String s = "";
+        for(FlightCrew flightCrew : flightCrewList){
+            s += flightCrew.getCrewName() + ", ";
+        }
+        return s;
+    }
 }

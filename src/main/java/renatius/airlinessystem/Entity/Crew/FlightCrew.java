@@ -34,7 +34,7 @@ public class FlightCrew {
     @Column(name = "crew_post")
     private String post;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flight_id")
     private Flight flight;
 

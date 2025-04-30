@@ -115,6 +115,7 @@ public class MainServiceImpl implements MainService {
                 add(flightEngineering);
                 add(flightMedic);
                 add(reliefCrew);
+                add(airBornSensorOperator);
             }};
 
         }catch (NullPointerException e){
