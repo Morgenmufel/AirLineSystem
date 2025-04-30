@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
@@ -77,6 +78,29 @@ public class AirplaneWindowController {
         model_column.setCellValueFactory(new PropertyValueFactory<>("airPlaneModel"));
         status_column.setCellValueFactory(new PropertyValueFactory<>("airPlaneStatus"));
         flight_column.setCellValueFactory(new PropertyValueFactory<>("flight"));
+        ////////////////////////////////////////////////////////////
+        name_column.setCellFactory(col -> {
+            TableCell<AirPlane, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(col.widthProperty().subtract(10));
+                    setGraphic(text);
+                    setPrefHeight(Control.USE_COMPUTED_SIZE);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        text.setText("");
+                    } else {
+                        text.setText(item);
+                    }
+                }
+            };
+            return cell;
+        });
     }
 
     public void ViewAirplanes(){
@@ -89,7 +113,7 @@ public class AirplaneWindowController {
     public void AddAirplane(){
         AirPlaneServiceImpl airPlaneService = new AirPlaneServiceImpl();
         AirPlane airPlane = new AirPlane();
-        if(!name_column.getText().isEmpty()) {
+        if(!name_field.getText().isEmpty()) {
             airPlane.setPlaneName(name_field.getText().trim());
         }
         else{
@@ -116,16 +140,27 @@ public class AirplaneWindowController {
         }
         String newName = rename_field.getText().trim();
         String newModel = remodel_field.getText().trim();
-        if (newName.isEmpty() || newModel.isEmpty()) {
-            error_edit_label.setText("Ошибка: заполните все поля!");
+        if (newName.isEmpty() && newModel.isEmpty()) {
+            error_edit_label.setText("Измените хотя бы одно поле");
             return;
         }
         try {
-            selectedPlane.setPlaneName(newName);
-            selectedPlane.setAirPlaneModel(newModel);
+            if(!newName.isEmpty() && newModel.isEmpty()){
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setPlaneName(newName);
+            }
+            else if(newName.isEmpty() && !newModel.isEmpty()){
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setAirPlaneModel(newModel);
+            }
+            else{
+                selectedPlane = airPlaneService.getAirPlaneById(selectedPlane.getAirplane_id());
+                selectedPlane.setAirPlaneModel(newModel);
+                selectedPlane.setPlaneName(newName);
+            }
             airPlaneService.updateAirPlane(selectedPlane);
             ViewAirplanes();
-            error_edit_label.setText("Самолёт успешно изменён!");
+            error_edit_label.setText("Данные самолёта успешно изменены!");
             rename_field.clear();
             remodel_field.clear();
         } catch (Exception e) {
@@ -143,6 +178,7 @@ public class AirplaneWindowController {
         }
         airPlaneService.deleteAirPlane(airPlane);
         ViewAirplanes();
+        error_edit_label.setText("Самолёт успешно удалён");
     };
 
     public void logout(){

@@ -60,6 +60,7 @@ public class FlightEditAndDeleteWindowController {
     @FXML
     private Button exitButton;
 
+
     public void EditFlight(){};
 
     public void DeleteFlight(){};

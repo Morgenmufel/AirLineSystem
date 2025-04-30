@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
 import renatius.airlinessystem.Entity.Enum.WeatherStatus;
@@ -93,6 +94,29 @@ public class AirportWindowController {
         List<String> statusList = Arrays.stream(weatherStatus).map(Enum::name).collect(Collectors.toList());
         choose_status_box.getItems().addAll(statusList);
         rechoose_status_box.getItems().addAll(statusList);
+        //////////////////////////////////////////////////////
+        name_column.setCellFactory(col -> {
+            TableCell<Airport, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(col.widthProperty().subtract(10));
+                    setGraphic(text);
+                    setPrefHeight(Control.USE_COMPUTED_SIZE);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        text.setText("");
+                    } else {
+                        text.setText(item);
+                    }
+                }
+            };
+            return cell;
+        });
     }
 
     public void ViewAirports(){
@@ -113,7 +137,7 @@ public class AirportWindowController {
         }
         airport.setName(name);
         airport.setCountry(country);
-        if(WeatherStatus.valueOf(choose_status_box.getValue()) == null){
+        if(choose_status_box.getSelectionModel().isEmpty()){
             error_add_label.setText("Выберите погодные условия");
             return;
         }
@@ -133,26 +157,31 @@ public class AirportWindowController {
             error_edit_label.setText("Выберите аэропорт");
             return;
         }
+        if (rename_field.getText().isEmpty() && recountry_field.getText().isEmpty() && rechoose_status_box.getSelectionModel().isEmpty()){
+            error_edit_label.setText("Измените хотя бы одно поле");
+            return;
+        }
         String name = rename_field.getText();
         String country = recountry_field.getText();
         WeatherStatus weatherStatus = WeatherStatus.valueOf(rechoose_status_box.getValue());
-        if (name.isEmpty() || country.isEmpty() || weatherStatus == null){
-            error_edit_label.setText("Заполните все строки");
-            return;
-        }
         try {
-            airport.setName(name);
-            airport.setCountry(country);
-            airport.setWeatherStatus(weatherStatus);
+            if(!name.isEmpty()){
+                airport.setName(name);
+            }
+            if(!country.isEmpty()){
+                airport.setCountry(country);
+            }
+            if(!rechoose_status_box.getSelectionModel().isEmpty()){
+                airport.setWeatherStatus(weatherStatus);
+            }
             airportService.updateAirport(airport);
             ViewAirports();
-            error_edit_label.setText("Самолёт успешно изменён!");
+            error_edit_label.setText("Данные самолёта успешно изменёны!");
             rename_field.clear();
             recountry_field.clear();
         }catch (Exception e){
             error_edit_label.setText("Ошибка при обновлении: " + e.getMessage());
         }
-
         ViewAirports();
     };
 
@@ -165,6 +194,7 @@ public class AirportWindowController {
         }
         airportService.deleteAirport(airport);
         ViewAirports();
+        error_delete_button.setText("Аэропорт успешно удалён");
     };
 
     public void logout(){
