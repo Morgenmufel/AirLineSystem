@@ -83,7 +83,6 @@ public class FlightEditAndDeleteWindowController {
     public void initialize() {
         FlightServiceImpl service = new FlightServiceImpl();
         ObservableList<Flight> flights = FXCollections.observableArrayList(service.getAllFlights());
-
         EditTableView.getItems().setAll(flights);
         departure_datetime_column.setCellValueFactory(new PropertyValueFactory<>("departureTime"));
         arrival_date_time_column.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));

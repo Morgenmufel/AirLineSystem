@@ -101,7 +101,12 @@ public class AddFlightWindowController {
         AirPlane airPlane = airPlaneService.findByName(airPlaneName);
         MainServiceImpl mainService = new MainServiceImpl();
         LocalDateTime localDateTime = LocalDateTime.of(arriveDate, arriveTime);
-        mainService.createFlight(localDateTime, airPlane, whereAirport, toAirport);
+        if(mainService.createFlight(localDateTime, airPlane, whereAirport, toAirport) == null) {
+
+            error_add_label.setText("Погодные условия ужасны! Сформировать рейс невозможно");
+            return;
+
+        }
     };
 
 

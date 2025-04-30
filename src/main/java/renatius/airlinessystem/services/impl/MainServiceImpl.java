@@ -93,16 +93,16 @@ public class MainServiceImpl implements MainService {
     public List<FlightCrew> getFlightCrews(List<FlightCrew> allCrews){
         List<FlightCrew> flightCrewList = null;
         try {
-            FlightCrew captain = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'Captain'", Captain.class).getSingleResult();
-            FlightCrew firstOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FirstOfficer'", FirstOfficer.class).getSingleResult();
-            FlightCrew secondOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'SecondOfficer'", SecondOfficer.class).getSingleResult();
-            FlightCrew thirdOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'ThirdOfficer'", ThirdOfficer.class).getSingleResult();
-            FlightCrew purser = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'Purser'", Purser.class).getSingleResult();
-            FlightCrew flightAttendant = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightAttendant'", FlightAttendant.class).getSingleResult();
+            FlightCrew captain = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'Captain'", Captain.class).setMaxResults(1).getSingleResult();
+            FlightCrew firstOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FirstOfficer'", FirstOfficer.class).setMaxResults(1).getSingleResult();
+            FlightCrew secondOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'SecondOfficer'", SecondOfficer.class).setMaxResults(1).getSingleResult();
+            FlightCrew thirdOfficer = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'ThirdOfficer'", ThirdOfficer.class).setMaxResults(1).getSingleResult();
+            FlightCrew purser = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'Purser'", Purser.class).setMaxResults(1).getSingleResult();
+            FlightCrew flightAttendant = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightAttendant'", FlightAttendant.class).setMaxResults(1).getSingleResult();
             FlightCrew flightEngineering = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightEngineer'", FlightEngineer.class).setMaxResults(1).getSingleResult();
-            FlightCrew flightMedic = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightMedic'", FlightMedic.class).getSingleResult();
-            FlightCrew reliefCrew = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'ReliefCrew'", ReliefCrew.class).getSingleResult();
-            FlightCrew airBornSensorOperator = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'AirborneSensorOperator'", AirborneSensorOperator.class).getSingleResult();
+            FlightCrew flightMedic = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'FlightMedic'", FlightMedic.class).setMaxResults(1).getSingleResult();
+            FlightCrew reliefCrew = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'ReliefCrew'", ReliefCrew.class).setMaxResults(1).getSingleResult();
+            FlightCrew airBornSensorOperator = HibernateUtil.getSessionFactory().openSession().createQuery("from FlightCrew where post = 'AirborneSensorOperator'", AirborneSensorOperator.class).setMaxResults(1).getSingleResult();
 
             flightCrewList = new ArrayList<>(){{
                 add(captain);
