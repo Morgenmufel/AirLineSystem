@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
 import renatius.airlinessystem.Entity.Crew.FlightCrew;
@@ -84,6 +85,28 @@ public class AirplaneWindowController {
                 return new SimpleIntegerProperty(airPlane.getFlight().getId()).asObject();
             }
             return new SimpleIntegerProperty(0).asObject();
+        });
+        name_column.setCellFactory(col -> {
+            TableCell<AirPlane, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(col.widthProperty().subtract(10));
+                    setGraphic(text);
+                    setPrefHeight(Control.USE_COMPUTED_SIZE);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        text.setText("");
+                    } else {
+                        text.setText(item);
+                    }
+                }
+            };
+            return cell;
         });
     }
 

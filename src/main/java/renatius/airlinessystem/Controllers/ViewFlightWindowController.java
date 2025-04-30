@@ -7,10 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import renatius.airlinessystem.Entity.AbstractEntity.Flight;
 import renatius.airlinessystem.Entity.AirPlaneUnit.AirPlane;
@@ -52,6 +51,30 @@ public class ViewFlightWindowController {
         ObservableList<Flight> flights = FXCollections.observableArrayList(service.getAllFlights());
 
         AirportTableView.getItems().setAll(flights);
+
+        employees_column.setCellFactory(col -> {
+            TableCell<Flight, String> cell = new TableCell<>() {
+                private final Text text = new Text();
+
+                {
+                    text.wrappingWidthProperty().bind(col.widthProperty().subtract(10));
+                    setGraphic(text);
+                    setPrefHeight(Control.USE_COMPUTED_SIZE);
+                }
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        text.setText("");
+                    } else {
+                        text.setText(item);
+                    }
+                }
+            };
+            return cell;
+        });
+
         departures_date_column.setCellValueFactory(new PropertyValueFactory<>("departureTime"));
         arrival_time_column.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
         airplane_column.setCellValueFactory(cellData -> {
